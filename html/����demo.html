@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<head>
+	<title>好看的表格</title>
+	<meta charset="gb2312" />
+<style type="text/css">
+	table {
+ 	  border-collapse: collapse;
+  	  width: 50em;
+ 	  border: 1px solid #666;
+	}
+	caption {
+	  font-size: 1.2em;
+	  font-weight: bold;
+	  margin: 1em 0;
+	}
+	
+	col {
+	  border-right: 1px solid #ccc;
+	}
+	
+	col#albumCol {
+	  border: none;
+	}
+	
+	thead {
+	  background: #ccc url(images/bar.gif) repeat-x left center;
+	  border-top: 1px solid #a5a5a5;
+	  border-bottom: 1px solid #a5a5a5;
+	}
+	
+	th {
+	  font-weight: normal;
+	  text-align: left;
+	}
+	
+	#playlistPosHead {
+	  text-indent: -1000em;
+	}
+	
+	th, td {
+	  padding: 0.1em 0.5em;
+	}
+	
+	
+	.odd {
+	  background-color:#edf5ff;
+	}
+	
+	
+	tr:hover {
+	  background-color:#3d80df;
+	  color: #fff;
+	}
+	
+	thead tr:hover {
+	  background-color: transparent;
+	  color: inherit;
+	}
+	</style>
+</head>
+<body>
+	<table cellspacing="0" id="playlistTable" summary="自制音乐排行榜">
+		<caption>
+			音乐排行榜
+		</caption>
+		
+		<colgroup>
+			<col id="PlaylistCol" />
+			<col id="trackCol" />
+			<col id="artistCol" />
+			<col id="albumCol" />
+		</colgroup>
+	
+		<thead>
+			<tr>
+			<th id="playlistPosHead" scope="col">夕木木音乐排行榜</th>
+			<th scope="col">歌曲</th>
+			<th scope="col">歌手</th>
+			<th scope="col">专辑</th>
+			</tr>
+		</thead>
+	
+		<tbody>
+			<tr class="odd">
+				<td>1</td>
+				<td>我的未来不是梦</td>
+				<td>张雨生</td>
+				<td>未知</td>
+			</tr>
+			
+			<tr>
+				<td>2</td>
+				<td>昨日重现</td>
+				<td>卡朋特</td>
+				<td>未知</td>
+			</tr>
+			
+			<tr class="odd">
+				<td>3</td>
+				<td>我的未来不是梦</td>
+				<td>张雨生</td>
+				<td>未知</td>
+			</tr>
+			
+			<tr>
+				<td>4</td>
+				<td>昨日重现</td>
+				<td>卡朋特</td>
+				<td>未知</td>
+			</tr>
+			
+			<tr class="odd">
+				<td>5</td>
+				<td>我的未来不是梦</td>
+				<td>张雨生</td>
+				<td>未知</td>
+			</tr>
+			
+			<tr>
+				<td>6</td>
+				<td>昨日重现</td>
+				<td>卡朋特</td>
+				<td>未知</td>
+			</tr>
+			
+			<tr class="odd">
+				<td>7</td>
+				<td>我的未来不是梦</td>
+				<td>张雨生</td>
+				<td>未知</td>
+			</tr>
+			
+			<tr>
+				<td>8</td>
+				<td>昨日重现</td>
+				<td>卡朋特</td>
+				<td>未知</td>
+			</tr>
+			
+			<tr class="odd">
+				<td>9</td>
+				<td>我的未来不是梦</td>
+				<td>张雨生</td>
+				<td>未知</td>
+			</tr>
+			
+			<tr>
+				<td>10</td>
+				<td>昨日重现</td>
+				<td>卡朋特</td>
+				<td>未知</td>
+			</tr>		
+	</tbody>
+</table>
+</body>
+</html>

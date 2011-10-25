@@ -1,0 +1,26 @@
+	var wanIpAddr="<% getWanIp(); %>";
+	var lanIpAddr=document.lanCfg.lanIp.value;
+	var mask = document.wanCfg.lanNetmask.value;	
+	if (mask == "255.255.255.0")
+		mask = 3;
+	else if (mask == "255.255.0.0")
+		mask = 2;
+	else if (mask == "255.0.0.0")
+		mask = 1;
+	else
+		return;	
+	var ips1 = wanIpAddr.split(/\./);
+    	var ips2 = lanIpAddr.split(/\./);
+	var num = 0;
+	for (var s=0; s<mask; s++) {
+		var ipi1 = parseInt(ips1[s]);
+		var ipi2 = parseInt(ips2[s]);
+		
+		if(ipi1 ==ipi2 && wanIpAddr != "" ){
+			num++ ;	
+		}
+		if(num==3){
+			alert("wan口ip地址与lan口ip地址不能处于同一子网，请重新输入!");	
+			return false;
+		}
+	}
