@@ -1,0 +1,242 @@
+显示用户信息 
+	
+倒序阅读, 只看楼主, 小中大 楼主   发表于: 2010-06-09
+更多操作▼
+最经典，最详细--WAMP平台搭建
+
+    本帖被 陈伟_ 从 开源项目/PHP技术文档/Web实例 移动到本区(2011-08-31) 
+
+本部分设定了隐藏,您已回复过了,以下是隐藏的内容
+
+       ======最经典的WAMP平台搭建步骤 =======
+    需用软件：
+    1.Apache ： http://httpd.apache.org/
+    2.PHP ：http://www.php.net/
+    3.MySQL ：http://www.mysql.com/downloads/mysql/
+    4.ZendOptimizer ：http://www.zend.com/downloads/
+    5.phpMyAdmin ：http://www.phpmyadmin.net/home_page/downloads.php
+
+    注释：*号位选择项
+
+    =====================
+    STEP 1 安装 Apache
+    =====================
+
+    （1）、安装服务信息
+           domain.com
+           www.domain.com
+           admin@domain.com
+        [*]for All Users,on Port 80,as a Service -- Recommended.
+
+    （2）、选择安装类型
+           Typical 为默认安装
+        [*]Custom  为用户自定义安装
+
+    （3）、自定义安装
+        Apache Runtime
+            [*]This feature, and all subfeatures, will be installed on local hard drive.
+        Change...---->>---“D:\WebServer\Apache2.2”
+
+    （4）、 Install---->>---Finish，信息栏出现羽毛的图标
+    [    sell=5][/sell]
+    （5）、测试
+          浏览器输入：http://localhost/
+          成功则出现：It works!
+
+    （6）、配置Apache（httpd.conf文件）：(apache2.2\conf\httpd.conf)
+
+    ServerRoot：Apache 服务器软件的安装路径
+
+    Listen：监听的端口
+
+    ServerAdmin：管理员的Email地址
+
+    ServerName：服务器名称。后面为端口，默认80
+
+    DocumentRoot "E:/"  Web文件的根目录
+
+    <Directory "E:/">  根目录的相关设置。
+    “Options Indexes FollowSymLinks”改为“Options None”则不允许以目录形式访问。
+
+    <IfModule dir_module>
+         DirectoryIndex index.html index.htm index.php index.phtml 设置文件目录默认检索文件。
+    </IfModule>
+
+    Alias 别名：（插入在<IfModule alias_module>中）
+
+    Alias /www "C:/www/"
+
+    <Directory "C:/www/">
+        Options Indexes MultiViews
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    添加环境变量：;E:\WebServer\Apache2.2\bin
+
+
+    =====================
+    STEP 2 安装 PHP5
+    =====================
+
+    （1）、解压php-5.*.*.*-Win32.zip到：“D:\WebServer\php5目录下”
+    （2）、添加系统环境变量，在path中加入：“;D:\WebServer\WebSrv\php5;D:\WebServer\WebSrv\php5\ext”
+    （3）、复制核心的动态链接库php5ts.dll到：“C:\Windows\system32\”和“WEB服务器Apache根目录下”
+    （4）、配置PHP（php.ini文件），将php5\php.ini-recommended复制后重命名为 php.ini，编辑php.ini
+
+    register_globals = Off 全局变量
+
+    short_open_tag = On  是否允许使用起使标记符的简写形式“<? ?>”
+
+    include_path 和 doc_root：设置要执行的PHP文件存放的位置。各目录用“;”分隔。
+
+    session.save_path 指定存放session的目录。
+
+    post_max_size = 8M  这是PHP将接受的POST数据最大大小，可更改为80M
+
+    upload_max_filesize = 2M  允许上传的的最大文件大小，可更改为200M
+
+    extension_dir = "D:/WebServer/WebSrv/php5/ext/" 扩展组件的目录
+
+    把你想要的extension前面的注释分号去掉，比如：
+    ;extension=php_dba.dll    DBF数据库
+    ;extension=php_dbase.dll  操作 DBF数据库
+    ;extension=php_imap.dll   收发邮件
+
+    extension=php_gd2.dll      图像处理
+    extension=php_mbstring.dll 宽字符集
+    extension=php_mcrypt.dll   加密算法扩展库
+
+    extension=php_mysql.dll    非持继连接函数，过程
+    extension=php_mysqli.dll   永远连接函数，对象
+
+    ========================
+    STEP 3 Apache与PHP相连接
+    ========================
+    方式一，模块方式：把PHP解析器作为Apache自身的一部分来运行和解析脚本。
+    方式二，CGI方式：把PHP解析器作为一个独立的程序来运行和解析脚本。
+             模块方式更具有安全性和效率性。
+
+    以模块方式结合：编辑（httpd.conf）
+    （1）、找到LoadModule块，在后面加入两行：
+
+          LoadModule php5_module D:/WebServer/WebSrv/php5/php5apache2_2.dll
+          PHPIniDir "D:/WebServer/WebSrv/php5"
+
+    解释：“php5apache2_2.dll”为PHP支持Apache的动态链接库模块。
+    第一行“LoadModule php5_module D:/WebServer/WebSrv/php5/php5apache2_2.dll”是指以模块方式加载PHP，
+    第二行 “PHPIniDir "D:/WebServer/WebSrv/php5"”是指明php的配置文件php.ini的位置。
+
+    （2）、添加可以执行php的文件类型，找到“AddType application/x-gzip .gz .tgz”，在后面添加：
+
+          AddType application/x-httpd-php .php .phtml
+          AddType application/x-httpd-php .html .htm  【注意】处理的文档中php代码，但是URL不能为中文，包括文件名。
+
+    （3）、 php与Apache连接完成，重启Apache，就支持php了。
+
+    （4）、测试PHP是否安装成功
+
+    <?php
+       echo '测试成功！ -- '.data("Y-m-d H:i:s");
+       phpinfo();
+    ?>
+
+
+    ================
+    STEP 4 安装MySQL
+    ================
+
+    （01）、选择安装类型
+            Typical（默认）
+            Complete（完全）
+        [*]Custom（用户自定义）
+    （02）、自定义安装
+        MySQL Server（mysql服务器）
+                    【MySQL Server Datafiles的路径】!!!
+        Client Programs（mysql客户端程序）
+        Documentation（文档）
+        Developer Components（开发者部分）
+            [*]This feature, and all subfeatures, will be installed on local hard drive.
+        “Change...”，指定安装目录。D:\WebServer\mysql\
+    （03）、Install---->>>----Finish
+    （04）、选择“Configure the MySQL Server now”进行设置
+    （05）、配置方式
+        [*]Detailed Configuration（手动精确配置）
+            Standard Configuration（标准配置）
+    （06）、服务器类型
+            Developer Machine（开发测试类，mysql占用很少资源）
+        [*]Server Machine（服务器类型，mysql占用较多资源）
+            Dedicated MySQL Server Machine（专门的数据库服务器，mysql占用所有可用资源）
+    （07）、mysql 数据库的大致用途
+            Multifunctional Database（通用多功能型，好）
+        [*]Transactional Database Only（服务器类型，专注于事务处理，一般）
+            Non-Transactional Database Only（非事务处理型，较简单，主要做一些监控、记数用，对MyISAM数据类型的支持仅限于non-transactional）
+    （08）、对InnoDB Tablespace进行配置，就是为InnoDB 数据库文件选择一个存储空间，如果修改了，要记住位置，重装的时候要选择一样的地方，否则可能会造成数据库损坏，当然，对数据库做个备份就没问题了。
+    使用用默认位置，按“Next”继续
+    （09）、MySQL访问量，同时连接数配置
+            Decision Support(DSS)/OLAP（20个左右）
+            Online Transaction Processing(OLTP)（500个左右）
+        [*]Manual Setting（手动设置，自己输一个数）
+    （10）、 MySQL网络接口配置
+        [*]Enable TCP/IP Networking（是否启用TCP/IP连接，设定端口，如果不启用，就只能在自己的机器上访问mysql数据库）
+                [*]Add firewall exception for this port（打开防火墙端口）
+        [*]Enable Strict Mode（开启严格模式）
+    （11）、设置字符集
+            Standard Character Set（标准字符集）
+        [*]Best Support For Multilingualism（支持多种语言）
+            Manual Selected Default Character Set/Collation （人工选择的默认字符集）
+    （12）、设置服务选项
+    选择是否将mysql安装为 windows服务，还可以指定Service Name（服务标识名称），是否将mysql的bin目录加入到Windows PATH（加入后，就可以直接使用bin下的文件，而不用指出目录名，比如连接，
+    “mysql.exe -uusername -ppassword;”就可以了，不用指出mysql.exe的完整地址，很方便），我这里全部打上了勾，Service Name不变。
+    （13）、设置安全选项
+        [*]Modify Security Settings
+            [*]Enable root access from remote machines（是否允许root用户在其它的机器上登陆，如果要安全，就不要勾上，如果要方便，就勾上它）
+        Create An Anonymous Account（新建一个匿名用户，匿名用户可以连接数据库，不能操作数据，包括查询）
+    （14）、确认设置无误，如果有误，按“Back”返回检查。按“Execute”使设置生效。
+    （15）、测试PHP和MySQL是否连接成功
+    <?php
+    $conn = mysql_connect("localhost","root","admin");
+    if ($conn) echo "连接成功";
+    else echo "连接失败";
+    mysql_close();
+    ?>
+    【问题】
+    设置完毕，按“Finish”结束mysql的安装与配置——这里有一个比较常见的错误，就是不能 “Start service”，一般出现在以前有安装mysql的服务器上，解决的办法，先保证以前安装的mysql服务器彻底卸载掉了；不行的话，检查是否按上面一 步所说，之前的密码是否有修改，照上面的操作；如果依然不行，将mysql安装目录下的data文件夹备份，然后删除，在安装完成后，将安装生成的 data文件夹删除，备份的data文件夹移回来，再重启mysql服务就可以了，这种情况下，可能需要将数据库检查一下，然后修复一次，防止数据出错。检查MySQL环境变量是否添加，如没有则手动加入：;C:\MySQL5\bin系统环境变量要重启电脑才能生效，可以现在重启，也可以在所有软件安装或配置好后重启。
+
+    与Apache及php相结合,在php安装目录下，找到先前重命名并编辑过的 php.ini，把“;extension=php_mysql.dll”前的“;”去掉，加载mysql模块。保存，关闭后，重启apache就可以 了。这里也可以选择其它要加载的模块，去掉前面的“;”，就表示要加载此模块了，加载的越多，占用的资源也就多一点，不过也多不到哪去。所有的模块文件都 放在php解压缩目录的“ext”之下。如果“ext” 目录下默认没有此模块，加载会提示找不到文件而出错。
+
+    若测试失败将 php/libmysql.dll复制到：“C:\Windows\system32\”和“WEB服务器Apache根目录下”
+
+    =========================
+    STEP 5 安装zend optimizer
+    =========================
+
+    （1）、选择zend optimizer的安装路径
+    （2）、选择Apache版本
+    （3）、选择php.ini--路径D:\WebServer \php5
+    （4）、选择Apache--安装目录D:\WebServer\Apache2.2
+    （5）、安装完成后，重启Apache。
+    打开phpinfo，如Powered By栏出现：
+    with Zend Extension Manager v1.2.0, Copyright (c) 2003-2007, by Zend Technologies
+    ??? with Zend Optimizer v3.3.3, Copyright (c) 1998-2007, by Zend Technologies
+    则表示zend optimizer安装成功。
+
+
+    =====================
+    STEP 6 安装phpMyAdmin
+    =====================
+
+    （1）、解压phpMyAdmin-3.*.*-all-languages，把文件夹命名为phpMyAdmin，复制到网站根目录或其它目录。
+    （2）、将phpmyadmin\config.sample.inc.php文件复制，改名为config.inc.php之后编辑
+
+            $cfg['blowfish_secret']= 'cookie';(FXDLKX可以随便写成什么的)
+            
+            //$cfg['Servers'][$i]['controluser'] = 'root';（删除“//”注释号，填入用户名root）
+            //$cfg['Servers'][$i]['controlpass'] = 'admin';删除“//”注释号，填入密码admin）
+    （3）、测试错误分析
+            （1）出现：phpMyAdmin - 错误  无法加载 mysql 扩展，请检查您的 PHP 配置。 - 文档
+                解决办法：将php/libmysql.dll复制到：“WEB服务器Apache根目录下”
+            （2）出现：无法加载 mcrypt 扩展，请检查您的 PHP 配置。
+                解决办法：1.php,ini里去掉 “extension=php_mcrypt.dll”前的分号
+                      2.将php/libmcrypt.dll 复制到：“WEB服务器Apache根目录下”
