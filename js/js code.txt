@@ -1,1 +1,35 @@
-document.getElementById("bigclass").options[window.document.getElementById("bigclass").selectedIndex].text // 去选择框option的值
+javascript获取select的值全解
+
+获取显示的汉字
+
+document.getElementById("bigclass").options[window.document.getElementById("bigclass").selectedIndex].text
+
+获取数据库中的id
+
+window.document.getElementById("bigclass").value
+
+获取select组分配的索引id
+
+window.document.getElementById("bigclass").selectedIndex
+
+
+例子：
+
+<select name="bigclass" id="bigclass" onChange="javascript:updatePage2();">
+<option value="" selected="selected">ajax实验</option>
+<option value="4">我适宜市哈</option>
+</select>
+
+
+使用
+document.getElementById("bigclass").options[window.document.getElementById("bigclass").selectedIndex].text
+的结果是：我适宜市哈
+
+使用
+window.document.getElementById("bigclass").value
+的结果是：4
+
+使用
+window.document.getElementById("bigclass").selectedIndex
+的结果是：1
+

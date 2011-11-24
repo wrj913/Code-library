@@ -1,0 +1,29 @@
+Loading...<span id='loading'></span>
+
+<script type="text/javascript">
+
+// <![CDATA[
+
+function easy_loading(id){
+
+var symbol = ['.', '..', '...', '....'],
+
+       elem = document.getElementById(id),
+
+       i = 0;
+
+    (function __func() {
+
+        elem.innerHTML = symbol[i++ % 4];
+
+        setTimeout(__func, 200);
+
+    })();
+
+}
+
+easy_loading('loading');
+
+ // ]]>
+
+</script>
