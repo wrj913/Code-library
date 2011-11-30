@@ -1,6 +1,0 @@
-   
-if(isNaN(document.login.imgcode.value)){
-   alert('验证码必须是数字！')
-   document.login.imgcode.focus();
-   return false;
-} 

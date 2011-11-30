@@ -1,1 +1,0 @@
-document.getElementById("bigclass").options[window.document.getElementById("bigclass").selectedIndex].text // 去选择框option的值
