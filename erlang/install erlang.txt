@@ -1,0 +1,31 @@
+在unbuntu系统中使用erlang语言
+1.安装erlang编译环境
+（１）文件锁定
+如果出现文件锁定，需先进入root用户：sudo  i 或sudo su-
+之后就是root身份登录了
+（２）安装erlang编译包
+apt-get install erlang
+(3)安装基础环境
+基础环境
+apt-get install build-essential
+apt-get install libncurses5-dev
+apt-get install m4
+apt-get install libssl-dev
+2.编译一个简单的程序
+（1）使用命令 gedit test.erl
+在文件中输入如下代码：
+-module(test).
+-export([factorial/1]).
+factorial(0) -> 1;
+factorial(N) -> N * factorial(N-1).
+注意module中的内容与文件名一致
+（2）编译文件
+erlc test.erl
+erl
+(3)输入与输出
+> test:factorial(6).
+720
+> test:factorial(25).
+15511210043330985984000000
+(4)退出
+> q().
