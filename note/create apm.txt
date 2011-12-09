@@ -1,0 +1,168 @@
+一、制作一个简单的rpm包
+1.创建文件夹helloworld，用于存放编写的程序代码
+
+mkdir ~/helloworld
+
+
+
+
+2.编写程序代码
+
+  helloworld.c
+
+#include <stdio.h>
+int main(void)
+{
+printf(“Hello, world !\n”);
+return 0;
+}
+
+
+
+Makefile (注意 ：每条指令都以"tab" 开始)
+
+all:
+	gcc -o helloworld helloworld.c
+fresh:
+	rm -rf Makefile
+clean:
+	rm -rf helloworld helloworld.o
+install:
+	cp helloworld /usr/bin
+uninstall:
+	rm -rf /usr/bin/helloworld
+
+
+readme
+
+author: sam shen
+description: this is the first program for testing rpm build
+
+
+
+
+3.复制~/helloworld文件夹到/usr/src/redhat/SOURCES
+cp -R ~/helloworld /usr/src/redhat/SOURCES
+
+
+
+
+4.压缩源码
+cd /usr/src/redhat/SOURCES
+tar -zcvf helloworld-0.1-1.tar.gz helloworld
+
+
+
+5.编写spec文件
+
+cd /usr/src/redhat/SPECS
+
+编写helloworld-0.1-1.spec，内容如下：
+
+Summary: the First RPM of sam
+Name:helloworld
+Version:0.1
+Release:1
+Vendor:Sam Shen (sxc_1985921@126.com)
+License:Share
+Group:Applications/Text
+Source0:helloworld-0.1-1.tar.gz
+#Patch0:helloworld-0.1-1.patch
+%description
+My test helloworld
+%prep
+export RPM_SOURCES_DIR=/usr/src/redhat/SOURCES
+export RPM_BUILD_DIR=/usr/src/redhat/BUILD
+tar -xvf $RPM_SOURCES_DIR/helloworld-0.1-1.tar.gz
+#%patch
+%build
+cd $RPM_BUILD_DIR/helloworld
+make
+%install
+cd $RPM_BUILD_DIR/helloworld
+make install
+%clean
+rm -rf $RPM_BUILD_DIR/helloworld
+%files
+%defattr(-,root,root)
+/usr/bin/helloworld
+%doc
+/usr/src/redhat/BUILD/helloworld/readme
+%changelog
+* Tue Sep 2 2008 Sam Shen sxc_1985921@126.com
+- sam test it
+
+
+
+
+6.打包，在/usr/src/redhat/SPEC目录下执行如下命令：
+
+rpmbuild -ba helloworld-0.1-1.spec
+
+后在/usr/src/redhat/RPMS/i386目录下产生helloworld-0.1-1.i386.rpm，在/usr/src/redhat/SRPMS目录下产生helloworld-0.1-1.src.rpm
+此时，在终端运行helloworld将输出：Hello, world !
+
+
+
+7.修改源程序，进行源程序更新
+cd /usr/src/redhat/SOURCES/
+mkdir helloworld2
+cd helloworld2
+cp ../helloworld/*  ./
+vim helloworld.c
+在第一个prinf语句后加上printf(“This is a simple program for testing rpm build\n”);
+vim readme
+在末尾加上you can input helloworld in terminal , and you can see what happened
+回到上级目录
+cd /usr/src/redhat/SOURCES
+diff -uNr helloworld helloworld2 > helloworld-0.1-1.patch
+上条命令将产生一个patch文件helloworld-0.1-1.patch
+现在回头把Patch0和%patch前面的注释去掉
+
+
+
+
+8.重新生成RPM包，观察变化
+rpmbuild -bb helloworld-0.1-1.spec    (只生成二进制格式的rpm包)，或
+rpmbuild -bs helloworld-0.1-1.spec    (只生成src格式的rpm包)，或
+rpmbuild -bp helloworld-0.1-1.spec    (只需要生成完整的源文件，存在BUILD目录下，它的作用就是把tar包解开然后把所有的补丁文件合并而生成一个完整的最新功能的源文件)，或
+rpmbuild -ba helloworld-0.1-1.spec    (产生以上3个过程分别生成的包)
+9.此时，在终端运行helloworld将输出：
+Hello, world !
+This is a simple program for testing rpm build
+
+
+
+
+10.检查gpg软件是否安装
+rpm -qf  `which gpg`
+显示gnupg-1.4.7-7类似的名称，则已经安装
+
+
+
+11.配置一个签名
+gpg –gen-key
+按照提示回答问题
+
+
+
+12.建立RPM宏文件/home/sam/.rpmmacros
+ %_signature gpg
+%_gpg_path /home/sam/.gnupg
+%_gpg_name shen xiao cheng  (sam shen) <sxc_1985921@126.com>
+%_gpgbin /usr/bin/gpg
+
+
+
+
+13.为RPM包签名
+rpm --addsign helloworld-0.1-1.i386.rpm
+rpm --resign  hellworld-0.1-1.i386.rpm
+或者在打包时加上--sign选项，如：
+rpmbuild -ba --sign helloworld-0.1-1.spec
+14.也可以从src.rpm打成platform.rpm
+把src.rpm和.spec文件放在一个文件夹下
+rpm -ivh helloworld-0.1-1.src.rpm
+查看安装到哪里：
+locate helloworld
+rpm -ba helloworld-0.1-1.spec

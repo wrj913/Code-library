@@ -1,0 +1,35 @@
+/etc/php5/apache2$ sudo /etc/init.d/apache2 restart
+
+
+
+1.安装 gvim  
+
+
+安装NERD tree
+
+http://www.vim.org/scripts/script.php?script_id=1658
+
+2.安装中文输入法
+
+由于Ubuntu的官方软件源不能及时更新到最新版本，我们需要使用ppa的第三方源进行更新安装。
+用终端运行：
+sudo add-apt-repository ppa:shawn-p-huang/ppa
+sudo apt-get update
+sudo apt-get install ibus-gtk ibus-pinyin ibus-pinyin-db-open-phrase
+进行安装，安装结束后在首选项中的ibus设置中设置为默认输入法，注销运行后就可以使用了。
+
+3.修改root密码：
+
+
+在终端运行
+
+usrname@usrname-laptoppasswd:~$passwd usrname
+
+改变口令为 usrname。
+（当前）UNIX 口令：<输入现在的密码>
+输入新的 UNIX 口令： <输入新密码>
+重新输入新的 UNIX 口令：<重新输入新密码>
+
+passwd：已成功更新密码
+
+（说明：需要修改的用户名是usrname）

@@ -1,0 +1,31 @@
+什么是Twisted，如果不知道就有点out了。
+  Twisted Matrix 是一种越来越受欢迎的纯 Python 框架，用来进行网络服务和应用程序的编程。虽然 Twisted Matrix 中有大量松散耦合的模块化组件，但该框架的中心概念还是非阻塞异步服务器这一思想。
+Twisted is an event-driven networking engine written in Python and licensed under the MIT license.
+Twisted projects 支持 TCP, UDP, SSL/TLS, multicast, Unix sockets, 大量的协议 (包括 HTTP, NNTP, IMAP, SSH, IRC, FTP, 以及其它), and much more.
+无数项目基于 Twisted Matrix构建。
+学习目的：
+了解异步实现方式，对并发能力做一个基本测试。
+【安装篇】
+1、下载Twisted
+从这里下载Twisted，有win32，source，mac版本，win32下有支持python2.5和2.6的两个版本，可以根据你的python版本下载，今天是在linux下，所以直接下载source版本就可以了。目前的版本号是 twistd 10.1.0 (/usr/bin/python 2.6.6)
+2：下载并安装python
+安装过程有1个error，忽略之，python。
+Python 2.6.6 (r266:84292, Sep 15 2010, 16:22:56)
+[GCC 4.4.5] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+
+3：安装Twisted 出现错误
+TwistedCore-10.1.0# python setup.py build
+/usr/include/python2.6/Python.h:7: fatal error: patchlevel.h: 没有那个文件或目录
+compilation terminated.
+从安装目录 copy include/*.h 到对应环境路径 ok
+安装完成后进入python，测试Twisted是否安装成功
+[root@codebreaker Twisted-8.1.0]# python
+Python 2.6.6 (r266:84292, Sep 15 2010, 16:22:56)
+[GCC 4.4.5] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import twisted
+>>>
+如果没有错误发生，说明Twisted已经安装成功了
+【简单测试篇】
+Twisted web POST example w/ JSON,采用这个示例，不再赘述

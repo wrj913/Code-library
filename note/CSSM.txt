@@ -1,0 +1,27 @@
+[mpandit@dev-services-vm-01:/tmp] $ wget ftp://ftp.pbone.net/mirror/ftp.centos.org/5.4/os/x86_64/CentOS/cyrus-sasl-2.1.22-5.el5.x86_64.rpm
+[mpandit@dev-services-vm-01:/tmp] $ sudo rpm -vi cyrus-sasl-2.1.22-5.el5.x86_64.rpm
+Preparing packages for installation...
+package cyrus-sasl-2.1.22-5.el5.x86_64 is already installed
+
+[mpandit@dev-services-vm-01:/tmp] $ wget ftp://ftp.pbone.net/mirror/ftp.centos.org/5.4/os/x86_64/CentOS/cyrus-sasl-devel-2.1.22-5.el5.x86_64.rpm
+[mpandit@dev-services-vm-01:/tmp] $ sudo rpm -iv cyrus-sasl-devel-2.1.22-5.el5.x86_64.rpm
+Preparing packages for installation...
+cyrus-sasl-devel-2.1.22-5.el5
+
+Now that this was installed, I ran sudo gem install memcached, and saw the same ugly 1000 line error. Again, deleted the directory and it worked like a charm.
+
+Success at the end!
+
+[mpandit@dev-services-vm-01:/tmp] $ sudo rm -rf /usr/lib/ruby/gems/1.8/gems/mem*
+[mpandit@dev-services-vm-01:/tmp] $ sudo gem install memcachedBuilding native extensions. This could take a while...
+Successfully installed memcached-0.19.3
+1 gem installed
+Installing ri documentation for memcached-0.19.3...
+
+
+
+
+
+
+
+http://contrarianwisdom.blogspot.com/2010/05/ruby-memcached-gem-on-centos-and-ubuntu.html

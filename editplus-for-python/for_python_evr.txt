@@ -1,0 +1,63 @@
+用EditPlus打造Python开发调试环境
+2009年01月01日 下午 1:13
+
+Python有很多集成开发工具，但这些工具有的是过于复杂，有的是对Unicode支持的不太好。本人很喜欢Editplus，现在我们就将它改造成一个能够很好的支持Python编辑，浏览，运行及调试的开发环境，并且具备语法加亮，自动完成，自动缩进，新建Python文件模板等功能支持。
+我的Editplus是3.10汉化版，Python是3.0。
+
+1．要使Editplus能够运行Python程序，首先打开 【工具】 -> 【首选项】 对话框，在用户工具Group1里新建一个工具起名为Python，分别在【菜单文本】填入Python，在【命令】填入Python的安装路径（比如C:\Python30\Python.exe），【参数】填入$(FileName)，【初始目录】填入$(FileDir)。
+
+这样我们在Editplus里打开一个Python文件，在【工具】菜单下就会有一个Python选项，直接单击就可以运行Python程序了，也可以利用快捷键（Ctrl＋1），根据你设置用户工具的个数，这个快捷键可能有所不同。
+
+在此处我们想实现下面的一个功能：就是当程序出错的时候，Python解释器会给出类似如下的提示信息：
+
+---------- Python ----------
+File "test.py", line 6
+    print 'a
+           ^
+SyntaxError: EOL while scanning single-quoted string
+Output completed (1 sec consumed) - Normal Termination
+
+此时，我们一般会根据提示的行号到文本中去找错误的地方，而不能够象其他的编译器一样直接双击错误的提示，将光标直接移动到错误行。此时如果我们直接双击某行，则会出现找不到某文件的错误。此处，我们就利用Editplus的输出模式Output Pattern的实现这个功能。具体做法：在刚才设置用户工具界面中选中捕获输出Capture Output，然后打开输出模式Output Pattern按钮，在输出模式Output Pattern对话框中，首先取消使用默认输出模式Use default output pattern选项前的复选框，在正则表达式Regular expression栏里填入正则表达式如下：
+File "(.+)", line ([0-9]+)
+文件名File Name栏里选择 标记表达式1 Tagged expression 1，
+行栏里选择 标记表达式2 Tagged expression 2，
+列栏里为None.
+
+然后我们直接双击错误提示信息行
+
+File "test.py", line 6
+
+光标就会直接跳到第六行，非常的方便，尤其是当多个文件互相调用的时候，这种方法可以方便打开文件找到错误的位置。
+
+2．为了实现语法加亮和自动完成功能，我们必须下载两个文件，下载地址为
+
+http://www.editplus.com/files/Pythonfiles.zip ，解压到editplus的安装目录下。压缩包有三个文件，此处我们用到两个，Python.acp文件和Python_extd.stx文件。Acp文件是自动完成文件，stx文件是语法加亮文件。怎样加载呢？方法如下：
+
+工具>首选项->设语法下，首先新建一个文件类型，我们命名为Python，扩展名（file extensions）栏里我们填入py。在语法文件syntax file栏里我们找到刚才下载的Python_extd.stx文件，在自动完成Auto completion栏里找到Python.acp文件，在函数模式Function Pattern栏里填入：
+[ \t]*def[ \t].+:
+
+这样我们就可以通过Ctrl＋F11快捷键直接显示出Python文件中的函数列表
+这时我们打开一个Python文件，就可以看到有语法加亮了。
+
+但是我们在编辑的时候会发现一个问题就是，在输入冒号后，没有自动缩进，当然，如果我们手工缩进后会发现后面的输入也进行了同样的缩进，怎样让Editplus自动识别冒号然后直接缩进，并且如何修改缩进的长度呢？在语法文件设置界面制表符/缩进选项，分别填入自己习惯的距离。我两个都填入4，并且选中插入空格代替制表符和使用自动缩进。然后在自动缩进开启字符里填入一个冒号“:”。
+
+其他的设置也可以根据类似的设置进行。
+
+3．还有一点很方便的是，可以通过建立一个Python文件的模板，来快速新建一个Python文件。首先我们建立一个名为template.py的文件，内容自定，我们这里假设如下：
+
+"""
+
+Usage:
+
+
+"""
+
+保存，将template.py文件放到Editplus安装目录下。
+
+工具->首选项->模板
+
+打开模板设置对话框，首先添加一个名为Python的模板，把文件路径设置到我们刚才建立的template.py文件上。
+
+点击载入按钮。完成。这样在文件->新建->下就会有一个Python模板，直接可以方便的建立一个Python文件。
+
+至此，Editplus已经可以方便的编辑，浏览，调试和运行Python程序了。最后还要提醒一点的是，个人使用习惯不同，可以根据类似的方法进行修改和调整。通过以上的介绍，我们可以看出，Editplus可以很方便的配置，能够完成Python常用的大部分功能，有效的提高编程效率。

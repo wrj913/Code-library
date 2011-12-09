@@ -1,0 +1,46 @@
+Ruby On Rails学习笔 
+
+
+    XML形式的配置文件是Web开发中最常见的文件，如web.xml、applicationContext.xml、*.hbm.xml等等，这些文件在为应用程序提供强大的灵活性的同时也大大增加配置的复杂度。而Rails框架抛弃了这些配置文件，使用严格的约定，要求开发者将View、Controller、Model等各种类型文件放在自己专属的文件夹下，从而大大降低开发的复杂度，也即其Convention Over Configuration思想。 
+
+
+
+    下面介绍图中的主要目录： app：该目录下存放了Rails应用程序的主要文件，其子目录有models、controllers、views和helper等几个，从名字上就可以看出它们分别存放应用程序中哪种类型的文件，helpers和views一样都是用来存放视图文件。
+
+
+    Rails是一个典型的MVC框架，所以其子目录也是按照MVC框架的结构划分和命名，使用起来非常方便。 
+
+
+    components：该目录下保存被应用程序中的model、controller和view使用的小组件。 
+
+
+    config：这个目录用来存放Rails应用程序中为数不多的配置文件，主要有数据库配置（database.yml）、Rails环境结构（environment.rb）以及web请求的处理路由（routes.rb）。另外还可以在environment子目录中分别配置测试（test.rb）、开发（development.rb）和生产（production.rb）三种不同的环境。
+
+
+
+    db：该目录用来存放管理应用程序中的数据库的脚本文件。
+
+
+    doc：Rails应用程序的文档目录。Ruby有一个RubyDoc工具，可以根据代码中的注释自动生成文档。
+
+
+    lib：该目录存放应用程序的类库。如果类库是第三方类库，需要放在另外一个目录vendor下。
+
+
+   log：日志信息无论软件的开发、测试还是运行阶段都有着非常重要的作用。Rails应用程序的所有日志信息都被存放在该目录下，主要的日志信息有针对服务器的独立日志信息（server.log）以及针对三种不同的Rails环境的日志信息（test.log、development.log和production.log）。
+
+
+    public：该目录存放应用程序中的静态文件，如图片、JavaScript脚本、CSS样式表文件和静态的HTML文件，其中images、javascripts和styles三个子目录分别存放图片、.js和.css文件，静态的html文件，可以直接存放在public下。
+   
+
+   script：这个目录存放了一些脚本文件，这些脚本文件用来管理或者启动Rails中各种类型的工具，例如生成代码、启动服务器等。 
+
+
+   test：该目录存放Rails自动产生的或者自己创建的测试文件，其中fixtures、mocks、unit和functional分别对应不同类型的测试。
+
+
+   vendor：该目录存放第三方的类库，如数据库操作类库。
+   
+
+
+  tmp：上图中没有出现该目录，在运行过程中可能会出现。该目录存放作为中间处理过程的临时文件。 由于Rails应用程序是按照惯例或者说约定来存放文件，从而简化开发的，所以我认为连了解这些目录的作用，总是比较好的。不过刚开始接触，还是有些目录的不是很清楚，等慢慢深入了，再回过来补充吧。 

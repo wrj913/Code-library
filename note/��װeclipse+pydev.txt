@@ -1,0 +1,54 @@
+安装配置Django开发环境（Eclipse + Pydev）
+
+
+
+
+
+   所谓工欲善其事，必先利其器。Python开发有很多工具，其中Eclipse+Pydev就是其中一种。尽管 python@newsmth 的置底文章对这对组合评价不高，但在pipi的坚持和推荐下，我还是选择了这对组合。反
+     下面将开发环境的安装配置过程写下来，供后来者参考。
+
+一、安装Eclipse SDK。
+
+到 http://www.eclipse.org/downloads/ 找SDK最新的Classic 版本下载。
+
+下载完毕之后，将eclipse SDK解压到某个目录下，我的放在e:\eclipse就可以了。
+
+如果要使用中文的，最好是使用跟SDK配套的语言包，否则也不能完全汉化（最后我选择了纯英文的，没汉化）。根据网上的资料，汉化前不要启动Eclipse，否则不能完全汉化。将语言包也解压到同一目录下即可。
+
+二、安装Pydev
+
+到http://sourceforge.net/projects/pydev/这里找最新版本下载
+
+下载后解压，将plugins目录下所有文件挪到Eclipse的相应目录下，将feature目录下所有文件挪到Eclipse的相应目录下，最后启动Eclipse，在Help－》Software Upates－》Manage Configuration，然后弹出的界面即可看到pydev的插件。
+
+另一种安装插件的方法是：Help－》Software Upates－》Find and Install－》Search for new features to install-》New remote site－》随便起个name如pydev，url填 http://pydev.sf.net/updates/ －》然后照着提示下载安装即可。
+
+两种方法我都尝试了一下，为保险起见，我选择的是第二种方法。
+
+三 、Pydev的配置
+在Eclipse IDE 下， 打开 Window->Preferences... 对话框，从右侧的树形列表中选择“ PyDev”->“Interpreter Python”， 点击New按钮，从Python的安装路径下选择Python.exe，然后会弹出一个对话框让你勾选System PYTHONPATH，我是都选了，应该无所谓。最后点Ok，退出。
+
+
+四、进行Django项目开发
+
+1、建立PyDev Project
+
+Eclipse IDE－》File－》New－》Other－》Pydev－》选择Pydev Project－》起一个项目的名称（例如demo）－》选择路径，如E:\work－》选择适合你的Python版本（我的是2.5）－》将下面的勾去掉，不要建立src文件－》Finish
+
+2、建立Django Project
+
+（1）django-admin.py startproject demo。
+
+（2）把生成的Django项目目录拷贝到Eclipse刚刚建立的项目下的目录里。回到刚才的Elicpse IDE－》在PyDev Package视图中右键单击新建的项目，从弹出的菜单中选择“Refresh”，即可看到Django的项目工程。添加、删除文件和目录的操作都可以通过右键菜单来完成。
+
+(3)右键单击PyDev项目－》属性－》选择PyDev－》PYTHONPATH－》然后将src目录 (项目文件路径） 添加到项目代码中去－》确定
+
+
+（4）对Pydev项目进行配置：选择Pydev的项目名称－》Run菜单－》Open Run Dialog－》Python Run－》右键New－》在Main面板中写入项目名称，通过Browse载入项目名称和Main Module，Main Module选择manage.py－》在Augement面板中,argument必须是 runserver --noreload，下面的workingdirectory加入你的base directory。
+
+打完收工，接下来开始写Django应用吧。
+
+最后补一个用SourceInsight看Python工程的方法：
+1、到http://www.sourceinsight.com/public/languages/下载Python.CLF文件，这是python的语言支持包。
+2、打开SourceInsight->Options > Preferences －> Languages －> Import －> Select (.CLF)
+3、再做的：－> Document Types - > Add Type (Give it a name : 填Python－>.给出类型名：我填的是*.py ) 在下面的下拉框里面选择之前导入的文件，然后确定。Source Insight 就可以识别该类型的文件了。

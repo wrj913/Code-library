@@ -1,0 +1,123 @@
+ubuntu下安装tftp
+
+
+在嵌入式系统开发中，tftp是一项经常要用到的服务。一些学员刚接触到嵌入式开发，在配置tftp服务的时候，常常会遇到一些问题。下面列举出了配置tftp服务的步骤，以及一些常见的问题：
+
+1、安装相关软件包：tftpd（服务端），tftp（客户端），xinetd
+
+sudo apt-get install tftpd tftp xinetd
+
+2、建立配置文件
+
+在/etc/xinetd.d/下建立一个配置文件tftp
+
+sudo vi tftp
+
+在文件中输入以下内容：
+
+service tftp
+
+{
+
+socket_type = dgram
+
+protocol = udp
+
+wait = yes
+
+user = root
+
+server = /usr/sbin/in.tftpd
+
+server_args = -s /tftpboot
+
+disable = no
+
+per_source = 11
+
+cps = 100 2
+
+flags = IPv4
+
+}
+
+保存退出
+
+3、建立tftp服务文件目录（上传文件与下载文件的位置），并且更改其权限
+
+sudo mkdir /tftpboot
+
+sudo chmod 777 /tftpboot -R
+
+4、重新启动服务
+
+sudo /etc/init.d/xinetd restart
+
+至此tftp服务已经安装完成了，下面可以对其进行一下测试。（假设在当前目录下有一个测试文件test.txt）
+
+$tftp 127.0.0.1                     
+
+tftp> put test.txt
+
+Sent 1018 bytes in 0.0 seconds
+
+tftp> get test.txt
+
+Received 1018 bytes in 0.1 seconds
+
+tftp> quit
+
+$
+
+ 
+
+通过get命令，可以把当前目录下的test.txt文件，通过tftp上传到它的服务文件目录。这时，在/tftpboot下面会出现 test.txt文件。通过put命令，可以从/tftpboot下,下载test.txt文件。这样就验证了tftp服务配置的正确性。当文件上传与下载结束后，可以通过quit命令退出。
+
+ 
+
+严格按照以上步骤配置tftp服务，一般都可以成功。如果出现无法get或者put的时候，可以查看一下防火墙是否关闭。希望大家都能配置成功！
+
+PS:不知道为什么我配置之后，xinet不能与tftp关联，所以没办法只好，从/etc/init.d/tftpd-hpa启动了，成功
+
+参考资料如下：
+
+1 安装
+
+root@ubuntu:/# apt-get install tftpd-hpa
+
+
+2 设置tftpd
+
+root@ubuntu:~# nano /etc/default/tftpd-hpa
+
+#Defaults for tftpd-hpa
+
+RUN_DAEMON="yes"
+
+#上面这句表示启动守护进程，tftpd工作
+
+OPTIONS="-l -s /var/lib/tftpboot"
+
+#上面这句表示tftp客户端能取得的文件所存放的位置
+
+3 启动服务
+
+root@ubuntu:/# /etc/init.d/tftpd-hpa start
+
+Starting HPA's tftpd: in.tftpd.
+
+root@ubuntu:/# ps aux|grep tftp
+
+root 26853 0.0 0.1 2196 288 ? Ss 17:26 0:00 /usr/sbin/in.tftpd -l -s /var/lib/tftpboot
+
+root 26862 0.0 0.2 3180 748 pts/1 R+ 17:27 0:00 grep tftp
+
+root@ubuntu:/#
+
+对于用到xinet查找到的资料
+
+给出链接
+
+http://topic.csdn.net/t/20030311/20/1518546.html
+
+xinetd完全指南
