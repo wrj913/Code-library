@@ -1,0 +1,2 @@
+git config --global color.ui true 
+// 在终端中输入上面的代码, 出自下面网址：http://opengit.org/open/?f=progit_07-customizing-git
