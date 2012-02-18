@@ -1,0 +1,25 @@
+﻿//mysql 创建视图
+CREATE VIEW area AS SELECT province.id AS pro_id, pro_name, city.id AS city_id, city_name, district.id AS dis_id, dis_name,street.id AS str_id, str_name
+FROM province, city, district, street
+WHERE province.id = city.pro_id
+AND city.id = district.city_id
+AND district.id = street.dis_id 
+
+
+
+//导入数据库
+mysqldump -u 用户名 -p 数据库名 > 导出的文件名
+
+
+//运行的时候， 在终端用以下命令:
+%PHP_HOME%/bin/php ur_php_file.php &
+让它在再后台执行:
+# nohup /home/andy/for_ever.php.php &
+
+
+
+
+//mysql 左连接实例
+
+select * FROM clients LEFT JOIN (select * from ipqams left join area on( ipqams.pro_id = area.pro_id and ipqams.city_id = area.city_id adn ipqams.dis_id = area.dis_id") ) on (clients.ipqam_id = ipqams.id)  
+left join  delivers on (clients.deliver_id = delivers.id)
