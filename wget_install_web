@@ -1,0 +1,35 @@
+可以使用下面的命令 wget -r -p -k -np http://hi.baidu.com/phps , -r 表示递归下载,会下载所有的链接,不过要注意的是,不要单独使用这个参数,因为如果你要下载的网站也有别的网站的链接,wget也会把别的网站的东西下载 下来,由于互联网的特性,很有可能你会把整个互联网给下载下来 --,所以要加上 -np这个参数,表示不下载别的站点的链接. -k表示将下载的网页里的链接修改为本地链接.-p获得所以显示网页所需的元素,比如图片什么的.
+另外还有其他的一些参数可以使用:
+
+-c表示断点续传
+
+-t 100表示重试100次,-t 0表示无穷次重试
+
+另外可以将要下载的url写到一个文件中,每个url一行,使用这样的命令 wget -i download.txt.
+
+--reject=avi,rmvb 表示不下载avi,rmvb的文件,--accept=jpg,jpeg,表示只下载jpg,jpeg的文件.
+
+可以在用户目录下建立一个.wgetrc的文件(windows里面好像不能直接建立这样的文件,windows会认为没有文件名--),里面写上 http-proxy = 123.456.78.9:80,然后在加上参数 --proxy=on,如果需要密码,再加上下面的参数 --proxy-user=username, --proxy-passwd=password 
+
+
+
+
+将wget命令放到这里备用：
+下载有索引目录
+wget -m http: //www.yourdomain.com/dir/ 这个最强力了！前提是目录必须是索引目录！
+
+下载一个目录，例如网站的yourdir
+
+wget -U “Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; GTB5)” -r -p -k -np -Pmydir -nc -o down.log http://www.yourdomain.com/yourdir/index.html
+
+如果要想下载整个网站，最好去除-np参数。
+
+wget -U “Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; GTB5)” -r -p -k -nc -o down.log http://www.yourdomain.com/index.html
+
+-U 修改agent，伪装成IE货firefox等
+-r 递归；对于HTTP主机，wget首先下载URL指定的文件，然后（如果该文件是一个HTML文档的话）递归下载该文件所引用（超级连接）的所有文件（递归深度由参数-l指定）。对FTP主机，该参数意味着要下载URL指定的目录中的所有文件，递归方法与HTTP主机类似。
+-c 指定断点续传功能。实际上，wget默认具有断点续传功能，只有当你使用别的ftp工具下载了某一文件的一部分，并希望wget接着完成此工作的时候，才需要指定此参数。
+-nc 不下载已经存在的文件
+-np 表示不跟随链接，只下载指定目录及子目录里的东西；
+-p 下载页面显示所需的所有文件。比如页面中包含了图片，但是图片并不在/yourdir目录中，而在/images目录下，有此参数，图片依然会被正常下载。
+-k 修复下载文件中的绝对连接为相对连接，这样方便本地阅读。
