@@ -23,3 +23,14 @@ mysqldump -u 用户名 -p 数据库名 > 导出的文件名
 
 select * FROM clients LEFT JOIN (select * from ipqams left join area on( ipqams.pro_id = area.pro_id and ipqams.city_id = area.city_id adn ipqams.dis_id = area.dis_id") ) on (clients.ipqam_id = ipqams.id)  
 left join  delivers on (clients.deliver_id = delivers.id)
+
+
+
+//git 创建远程分支
+
+$ git checkout -b 分支名
+这相当于执行下面这两条命令：
+$ git branch 分支名
+$ git checkout 分支名
+
+git push origin 分支名 //上传到git
