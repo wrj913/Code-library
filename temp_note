@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿//mysql 创建视图
 CREATE VIEW area AS SELECT province.id AS pro_id, pro_name, city.id AS city_id, city_name, district.id AS dis_id, dis_name,street.id AS str_id, str_name
 FROM province, city, district, street
@@ -79,4 +80,85 @@ spawn-fcgi -a 127.0.0.1 -p 9000 -C 10 -u www-data -f /usr/bin/php-cgi
 grep -R  "关键字"   ./   路径
 
 
+
+=======
+﻿//mysql 创建视图
+CREATE VIEW area AS SELECT province.id AS pro_id, pro_name, city.id AS city_id, city_name, district.id AS dis_id, dis_name,street.id AS str_id, str_name
+FROM province, city, district, street
+WHERE province.id = city.pro_id
+AND city.id = district.city_id
+AND district.id = street.dis_id 
+
+
+
+//导入数据库
+mysqldump -u 用户名 -p 数据库名 > 导出的文件名
+
+
+//运行的时候， 在终端用以下命令:
+%PHP_HOME%/bin/php ur_php_file.php &
+让它在再后台执行:
+# nohup /home/andy/for_ever.php.php &
+
+
+
+
+//mysql 左连接实例
+
+select * FROM clients LEFT JOIN (select * from ipqams left join area on( ipqams.pro_id = area.pro_id and ipqams.city_id = area.city_id adn ipqams.dis_id = area.dis_id") ) on (clients.ipqam_id = ipqams.id)  
+left join  delivers on (clients.deliver_id = delivers.id)
+
+
+
+//git 创建远程分支
+
+$ git checkout -b 分支名
+这相当于执行下面这两条命令：
+$ git branch 分支名
+$ git checkout 分支名
+
+git push origin 分支名 //上传到git
+
+
+//ubuntu apache操作
+ 
+// Apache  
+//Task: Start Apache 2 Server /启动apache服务  
+# /etc/init.d/apache2 start  
+//or  
+$ sudo /etc/init.d/apache2 start  
+//Task: Restart Apache 2 Server /重启apache服务  
+# /etc/init.d/apache2 restart  
+//or  
+$ sudo /etc/init.d/apache2 restart  
+//Task: Stop Apache 2 Server /停止apache服务  
+# /etc/init.d/apache2 stop  
+//or  
+$ sudo /etc/init.d/apache2 stop   
+// Mysql  
+/etc/init.d/mysql start  
+/etc/init.d/mysql stop  
+/etc/init.d/mysql restart  
+
+//VIM中去除Windows文本中的^M符号，多种方法
+
+:%s/\r/  （推荐）
+
+//Git 基础设置 (帐号和环境变量设置，颜色设置) 
+
+直接在 Shell 下執行下述:
+git config --global user.name "Tsung"
+git config --global user.email "username@email.com"
+git config --global color.diff auto # git diff 要顯示顏色
+git config --global color.status auto # git status 要顯示顏色
+git config --global color.branch auto
+註: 這些設定會在 ~user/ 下產生 .gitconfig, 所以我们也可以直接编辑这个文件，如下所示
+----------------------------------------------------------------
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+[user]
+    name = Tsung
+    email = username@email.com
 
