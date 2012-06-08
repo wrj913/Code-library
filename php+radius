@@ -1,0 +1,13 @@
+从网络上下载RADIUS模块源代码
+http://pecl.php.net/package/radius
+放到PHP源代码的 ext目录里
+退到上一层(PHP源代码目录), ./buildconfig
+进入ext/radius目录， ./phpize
+./configure
+./make
+
+在modules目录里就会出现radius.so
+
+应用这个扩展，就可以了。
+
+可以让PHP具备RADIUS认证和记账功能，对于开发热点计费，WEB认证，静态IP计费，802.1X认证等非常有用。

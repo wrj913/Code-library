@@ -1,0 +1,138 @@
+Ubuntu的好处，咱不多说了就冲着他的apt-get 软件丰富，安装便捷。
+
+一．环境：
+apt-get install build-essential（gcc基本环境）
+apt-get install flex
+apt-get install libmysqlclient15-dev
+apt-get install libtool
+apt-get install libltdl3-dev
+apt-get install libxml2-dev
+
+二．安装MySQL
+atp-get install mysql-server
+
+
+一．安装Apache 、PHP5
+sudo apt-get install apache2
+
+sudo apt-get install php5
+sudo apt-get install libapache2-mod-php5
+sudo apt-get install php5-gd
+sudo apt-get install php5-dev
+sudo /etc/init.d/apache2 restart
+
+完了之后还要让apache、php支持mysql
+
+sudo apt-get install libapache2-mod-auth-mysql
+sudo apt-get install php5-mysql
+sudo /etc/init.d/apache2 restart
+至此apache2+php 5+mysql5.0.51的环境就完成了
+
+二．安装Snmp
+sudo apt-get install snmp
+这个没有什么特别
+三．安装RRDTOOL
+sudo apt-get install rrdtool
+即可
+
+就可以进行Cacti的安装了，到它的主页下载最新的版本吧，如果你想用其他版本的也可以。我装的是0.8.7e，下载地址是http://www.cacti.net/downloads/cacti-0.8.7e.tar.gz。
+        下载好后，直接扔到/var/www目录底下，或者你直接在/var/www目录下wget也行。
+        跟着是解压什么的。
+       $ sudo -s 
+       $ mv cacti-0.8.7e.tar.gz /var/www
+       $ cd /var/www
+       $ tar xzf cacti-0.8.7e.tar.gz 
+       $ mv cacti-0.8.7e cacti
+       $ rm cacti-0.8.7e.tar.gz （这一步你想做就做，不想做就不做）
+       $ exit
+
+       紧接着，导入数据库：
+       $ cd /var/www/cacti
+       $ sudo mysqladmin -u root -p create cacti 
+       $ sudo mysql -u root -p cacti < cacti.sql
+       $ sudo mysql -u root -p cacti
+       下面的操作就都是在Mysql底下进行了，对数据库设置权限。（我的Windows底下弄权限老没成功）
+         grant all on cacti.* to cactiuser@localhost identified by 'cacti';
+         flush privileges; 
+        set password for cactiuser@localhost=password('cactiuser'); //用户名和密码都可以修改成自己想要的
+        quit
+
+        好了，下面需要修改的是编辑/var/www/cacti/include/config.php，修改数据库的密码为cactiuser 
+        这个是根据你上面设置数据库的密码
+        $ sudo vi /var/www/cacti/include/config.php 
+        $database_password = "cactiuser"; （当然这个可以修改，但要和上头的一样）
+
+        添加cactiuser用户 
+        $ sudo useradd cactiuser -d /var/www/cacti -s /bin/false
+        $ sudo chown -R cactiuser /var/www/cacti/rra /var/www/cacti/log
+        这个上面可能添加不行试试: 
+         # sudo chown -hR cactiuser /var/www/cacti/rra /var/www/cacti/log
+
+ 
+
+        编辑/etc/crontab增加计划任务，每五分钟执行一次采集工作，加入下面的话
+         $ sudo vi /etc/crontab
+         */5 * * * * cactiuser php5 /var/www/cacti/poller.php > /dev/null 2>&1
+
+         这样，你就可以访问你的Cacti了，至少可以开始安装了嘛。http://cactiserver（你的cacti服务器地址或者域名）/cacti，默认的用户名和密码都是admin，登陆后，会强制你更改密码。
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+ 
+
+安装过程比较简单，囫囵吞枣的也可以完成任务的，原文挺好，这里有所不同，笔记一下，可以参考：
+
+1 安装软件，好简单，飞快
+apt-get -y install apache2 mysql-server php5 php5-mysql php5-cgi php5-cli php5-snmp php-pear snmp snmpd rrdtool
+
+
+
+2 设置服务
+cd /var/www/
+wget http://www.cacti.net/downloads/cacti-0.8.7e.tar.gz
+tar xfz cacti-0.8.7e.tar.gz
+mv cacti-0.8.7e.tar.gz /Data/tgz/
+mv cacti-0.8.7e/ cacti
+cd cacti/
+mysqladmin -u root -p create cacti
+mysql -u root -p cacti < cacti.sql
+
+
+
+3 添加用户权限，执行 mysql -u root -p cacti
+grant all on cacti.* to cactiuser@localhost identified by 'cacti';
+flush privileges;
+set password for cactiuser@localhost=password('cactiuser');
+
+
+
+4 设置用户
+
+useradd cactiuser -d /var/www/cacti -s /bin/false
+chown -R cactiuser /var/www/cacti/rra /var/www/cacti/log
+vi /etc/crontab
+
+增加一行
+*/5 * * * * cactiuser php5 /var/www/cacti/poller.php > /dev/null 2>&1
+
+
+
+修改这几个php配置文件：
+
+vi /etc/php5/apache2/php.ini
+vi /etc/php5/cgi/php.ini
+vi /etc/php5/cli/php.ini
+
+编辑 "; extension=msql.so" => "extension=mysql.so"
+
+/etc/init.d/apache2 restart
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+

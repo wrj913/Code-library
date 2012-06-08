@@ -34,3 +34,49 @@ $ git branch 分支名
 $ git checkout 分支名
 
 git push origin 分支名 //上传到git
+
+
+//vim 清空文件内容
+
+ggdG
+
+gg   shift+G 跳转首尾
+
+//vim多行缩进
+按v进入visual状态，选择多行，用>或<缩进或缩出
+
+//vim 根据语言特征使用自动缩进排版：
+在命令状态下对当前行用== （连按=两次）, 或对多行用n==（n是自然数）表示自动缩进从当前行起的下面n行。
+你可以试试把代码缩进任意打乱再用n==排版，相当于一般IDE里的code format。使用gg=G可对整篇代码进行排版。
+
+
+
+//mysql查询表类型
+SHOW COLUMNS FROM clients
+
+//mysql导入数据库
+ mysql -uroot -pchina@east dc_test < terminal_package.sql
+
+//mysql添加表属性
+ALTER TABLE `send_messages` ADD `buy_name` VARCHAR( 100 ) NOT NULL AFTER `buy_num` ;
+
+
+//查看所有的服务端口（LISTEN，ESTABLISHED）
+　
+sudo netstat -ap
+
+重新启动nginx:
+
+/etc/init.d/nginx stop
+/etc/init.d/nginx start
+
+启动fastcgi php:
+
+spawn-fcgi -a 127.0.0.1 -p 9000 -C 10 -u www-data -f /usr/bin/php-cgi
+
+
+//linux 查找包含文字的文件
+grep -R  "关键字"   ./   路径
+
+
+
