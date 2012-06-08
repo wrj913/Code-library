@@ -60,4 +60,22 @@ $ sudo /etc/init.d/apache2 stop
 
 :%s/\r/  （推荐）
 
+//Git 基础设置 (帐号和环境变量设置，颜色设置) 
+
+直接在 Shell 下執行下述:
+git config --global user.name "Tsung"
+git config --global user.email "username@email.com"
+git config --global color.diff auto # git diff 要顯示顏色
+git config --global color.status auto # git status 要顯示顏色
+git config --global color.branch auto
+註: 這些設定會在 ~user/ 下產生 .gitconfig, 所以我们也可以直接编辑这个文件，如下所示
+----------------------------------------------------------------
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+[user]
+    name = Tsung
+    email = username@email.com
+
 
