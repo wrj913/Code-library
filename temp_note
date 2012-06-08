@@ -34,3 +34,30 @@ $ git branch 分支名
 $ git checkout 分支名
 
 git push origin 分支名 //上传到git
+
+
+//ubuntu apache操作
+ 
+// Apache  
+//Task: Start Apache 2 Server /启动apache服务  
+# /etc/init.d/apache2 start  
+//or  
+$ sudo /etc/init.d/apache2 start  
+//Task: Restart Apache 2 Server /重启apache服务  
+# /etc/init.d/apache2 restart  
+//or  
+$ sudo /etc/init.d/apache2 restart  
+//Task: Stop Apache 2 Server /停止apache服务  
+# /etc/init.d/apache2 stop  
+//or  
+$ sudo /etc/init.d/apache2 stop   
+// Mysql  
+/etc/init.d/mysql start  
+/etc/init.d/mysql stop  
+/etc/init.d/mysql restart  
+
+//VIM中去除Windows文本中的^M符号，多种方法
+
+:%s/\r/  （推荐）
+
+
