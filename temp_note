@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+ HEAD
 ﻿//mysql 创建视图
 CREATE VIEW area AS SELECT province.id AS pro_id, pro_name, city.id AS city_id, city_name, district.id AS dis_id, dis_name,street.id AS str_id, str_name
 FROM province, city, district, street
@@ -81,7 +81,7 @@ grep -R  "关键字"   ./   路径
 
 
 
-=======
+
 ﻿//mysql 创建视图
 CREATE VIEW area AS SELECT province.id AS pro_id, pro_name, city.id AS city_id, city_name, district.id AS dis_id, dis_name,street.id AS str_id, str_name
 FROM province, city, district, street
